@@ -1,123 +1,203 @@
-import random
-import os
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>2048 </title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #faf8ef;
+        }
 
-def initialize_board():
-    board = [[0 for _ in range(4)] for _ in range(4)]
-    add_new_tile(board)
-    add_new_tile(board)
-    return board
+        #game-board {
+            background-color: #bbada0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px;
+        }
 
-def print_board(board):
-    os.system('cls' if os.name == 'nt' else 'clear')  # 清屏
-    print("2048 游戏")
-    for row in board:
-        print("+----+----+----+----+")
-        print("|", end="")
-        for num in row:
-            print(f"{num:4}|" if num != 0 else "    |", end="")
-        print()
-    print("+----+----+----+----+")
-    print("使用 WASD 移动，Q 退出")
+        .cell {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(238, 228, 218, 0.35);
+            margin: 5px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            font-weight: bold;
+            color: #776e65;
+        }
 
-def transpose(board):
-    return [list(row) for row in zip(*board)]
+        .row {
+            display: flex;
+        }
 
-def merge(row):
-    new_row = [num for num in row if num != 0]
-    merged = []
-    score = 0
-    i = 0
-    while i < len(new_row):
-        if i + 1 < len(new_row) and new_row[i] == new_row[i+1]:
-            merged_val = new_row[i] * 2
-            merged.append(merged_val)
-            score += merged_val
-            i += 2
-        else:
-            merged.append(new_row[i])
-            i += 1
-    merged += [0] * (len(row) - len(merged))
-    return merged, score
+        .number-2 { background-color: #eee4da; }
+        .number-4 { background-color: #ede0c8; }
+        .number-8 { background-color: #f2b179; color: #f9f6f2; }
+        .number-16 { background-color: #f59563; color: #f9f6f2; }
+        .number-32 { background-color: #f67c5f; color: #f9f6f2; }
+        .number-64 { background-color: #f65e3b; color: #f9f6f2; }
+        .number-128 { background-color: #edcf72; color: #f9f6f2; }
+        .number-256 { background-color: #edcc61; color: #f9f6f2; }
+        .number-512 { background-color: #edc850; color: #f9f6f2; }
+        .number-1024 { background-color: #edc53f; color: #f9f6f2; }
+        .number-2048 { background-color: #edc22e; color: #f9f6f2; }
 
-def move_left(board):
-    new_board = []
-    total_score = 0
-    for row in board:
-        merged_row, score = merge(row)
-        new_board.append(merged_row)
-        total_score += score
-    return new_board, total_score
+        #score {
+            font-size: 24px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>2048</h1>
+    <div id="score">得分: 0</div>
+    <div id="game-board"></div>
+    <div>使用方向键或 WASD 移动</div>
 
-def move(board, direction):
-    if direction == 'a':  # 左
-        new_board, score = move_left(board)
-    elif direction == 'd':  # 右
-        reversed_board = [row[::-1] for row in board]
-        new_board, score = move_left(reversed_board)
-        new_board = [row[::-1] for row in new_board]
-    elif direction == 'w':  # 上
-        transposed = transpose(board)
-        new_board, score = move_left(transposed)
-        new_board = transpose(new_board)
-    elif direction == 's':  # 下
-        transposed = transpose(board)
-        reversed_transposed = [row[::-1] for row in transposed]
-        new_board, score = move_left(reversed_transposed)
-        new_board = [row[::-1] for row in new_board]
-        new_board = transpose(new_board)
-    else:
-        return board, 0
-    return new_board, score
+    <script>
+        let board = [];
+        let score = 0;
 
-def add_new_tile(board):
-    empty_cells = [(i, j) for i in range(4) for j in range(4) if board[i][j] == 0]
-    if empty_cells:
-        i, j = random.choice(empty_cells)
-        board[i][j] = 2 if random.random() < 0.9 else 4
-    return board
+        function initGame() {
+            board = Array(4).fill().map(() => Array(4).fill(0));
+            addNewTile();
+            addNewTile();
+            updateView();
+        }
 
-def is_game_over(board):
-    if any(0 in row for row in board):
-        return False
-    for i in range(4):
-        for j in range(3):
-            if board[i][j] == board[i][j+1] or board[j][i] == board[j+1][i]:
-                return False
-    return True
+        function addNewTile() {
+            const emptyCells = [];
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (board[i][j] === 0) emptyCells.push({x: i, y: j});
+                }
+            }
+            if (emptyCells.length > 0) {
+                const {x, y} = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                board[x][y] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
 
-def main():
-    board = initialize_board()
-    total_score = 0
-    
-    while True:
-        print_board(board)
-        print(f"当前分数: {total_score}")
-        
-        direction = input("输入方向（WASD）: ").lower()
-        if direction == 'q':
-            break
-        
-        if direction not in ['w', 'a', 's', 'd']:
-            print("无效输入！使用 WASD 移动")
-            continue
-        
-        new_board, score = move([row.copy() for row in board], direction)
-        if new_board != board:
-            total_score += score
-            board = new_board
-            add_new_tile(board)
+        function updateView() {
+            const gameBoard = document.getElementById('game-board');
+            gameBoard.innerHTML = '';
             
-            # 检查胜利条件
-            if any(num >= 2048 for row in board for num in row):
-                print_board(board)
-                print("恭喜你达成2048！")
-                if input("继续游戏？(y/n): ").lower() != 'y':
-                    break
-                
-            if is_game_over(board):
-                print_board(board)
-                print("游戏结束！")
-                break
+            board.forEach((row, i) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'row';
+                row.forEach((num, j) => {
+                    const cell = document.createElement('div');
+                    cell.className = `cell ${num !== 0 ? 'number-' + num : ''}`;
+                    cell.textContent = num !== 0 ? num : '';
+                    rowDiv.appendChild(cell);
+                });
+                gameBoard.appendChild(rowDiv);
+            });
 
-if __name__ == "__main__":
-    main()
+            document.getElementById('score').textContent = `得分: ${score}`;
+        }
+
+        function move(direction) {
+            const originalBoard = JSON.stringify(board);
+            
+            // 移动逻辑
+            const rotate = (matrix) => matrix[0].map((_, i) => matrix.map(row => row[i]));
+            const reverseRow = row => [...row].reverse();
+            
+            switch(direction) {
+                case 'left':
+                    board = board.map(row => mergeRow(row));
+                    break;
+                case 'right':
+                    board = board.map(row => reverseRow(mergeRow(reverseRow(row))));
+                    break;
+                case 'up':
+                    board = rotate(rotate(rotate(board.map(row => mergeRow(row))));
+                    break;
+                case 'down':
+                    board = rotate(board.map(row => reverseRow(mergeRow(reverseRow(row))));
+                    break;
+            }
+
+            if (JSON.stringify(board) !== originalBoard) {
+                addNewTile();
+                checkGameOver();
+            }
+            updateView();
+        }
+
+        function mergeRow(row) {
+            let newRow = row.filter(cell => cell !== 0);
+            for (let i = 0; i < newRow.length - 1; i++) {
+                if (newRow[i] === newRow[i + 1]) {
+                    newRow[i] *= 2;
+                    score += newRow[i];
+                    newRow.splice(i + 1, 1);
+                }
+            }
+            return [...newRow, ...Array(4 - newRow.length).fill(0)];
+        }
+
+        function checkGameOver() {
+            // 检查空格子
+            if (board.some(row => row.includes(0))) return false;
+            
+            // 检查水平相邻
+            for (let row of board) {
+                for (let i = 0; i < 3; i++) {
+                    if (row[i] === row[i + 1]) return false;
+                }
+            }
+            
+            // 检查垂直相邻
+            for (let j = 0; j < 4; j++) {
+                for (let i = 0; i < 3; i++) {
+                    if (board[i][j] === board[i + 1][j]) return false;
+                }
+            }
+            
+            alert('游戏结束！');
+            return true;
+        }
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            const keyMap = {
+                'ArrowLeft': 'left',
+                'ArrowRight': 'right',
+                'ArrowUp': 'up',
+                'ArrowDown': 'down',
+                'a': 'left',
+                'd': 'right',
+                'w': 'up',
+                's': 'down'
+            };
+            
+            if (keyMap[e.key]) {
+                e.preventDefault();
+                move(keyMap[e.key]);
+                
+                // 检查胜利条件
+                if (board.some(row => row.includes(2048))) {
+                    if (confirm('恭喜达成2048！继续游戏吗？')) {
+                        return;
+                    } else {
+                        initGame();
+                        score = 0;
+                    }
+                }
+            }
+        });
+
+        // 初始化游戏
+        initGame();
+    </script>
+</body>
+</html>
