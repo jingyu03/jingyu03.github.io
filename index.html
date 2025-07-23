@@ -15,20 +15,19 @@
 <body>
     <header>
         <div class="container header-container">
+            <button id="theme-toggle" class="theme-toggle">🌛</button>
             <div class="profile-info">
                 <h1>Yu Jing <span class="chinese-name">(井昱)</span></h1>
-                <p class="subtitle"><b>👨‍💼 Finance Student</b></p>
+                <p class="subtitle"><b>🧑🏻‍💼 Finance Student</b></p>
                 <p><span class="icon">📞</span> Tel: (+86) 18292892788</p>
-                <p><span class="icon">✉️</span> Email: <a href="mailto:122020080@link.cuhk.edu.cn">122020080@link.cuhk.edu.cn</a> &amp; <a href="mailto:yu2003china@163.com">yu2003china@163.com</a></p>
+                <p><span class="icon">✉️</span> Email: <a href="mailto:yu2003china@163.com">yu2003china@163.com</a></p>
                 <div class="links">
-                    <a href="files/Resume井昱.pdf" target="_blank" class="button">📄 PDF Resume</a>
+                    <a href="files/Resume井昱.pdf" target="_blank" class="button">📄 Resume</a>
                     <a href="https://github.com/jingyu03" target="_blank" class="button">🐱 GitHub</a>
                 </div>
             </div>
             <div class="carousel-container">
                 <img src="images/证件照.jpg" class="carousel-image active" alt="Yu Jing 证件照">
-                <img src="images/生活照3.jpg" class="carousel-image" alt="Yu Jing 生活照3">
-                <img src="images/生活照.jpg" class="carousel-image" alt="Yu Jing 生活照">
                 <img src="images/生活照2.jpg" class="carousel-image" alt="Yu Jing 生活照2">
                 <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
                 <a class="next" onclick="changeSlide(1)">&#10095;</a>
@@ -38,17 +37,20 @@
 
     <script>
         let currentSlide = 0;
-
         function changeSlide(direction) {
             const slides = document.querySelectorAll('.carousel-image');
             slides[currentSlide].classList.remove('active');
-
             currentSlide += direction;
             if (currentSlide >= slides.length) currentSlide = 0;
             if (currentSlide < 0) currentSlide = slides.length - 1;
-
             slides[currentSlide].classList.add('active');
         }
+
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark-theme');
+            const isDark = document.documentElement.classList.contains('dark-theme');
+            document.getElementById('theme-toggle').textContent = isDark ? '🌞' : '🌛';
+        });
     </script>
     
     <section class="intro">
@@ -74,8 +76,7 @@
                             <p class="date">09/2022 - 07/2026</p>
                         </div>
                         <div class="education-info">
-                            <p><strong>GPA:</strong> none</p>
-                            <p><strong>Ranking:</strong> none</p>
+                            <p><strong>GPA:</strong> 3.5/4.0</p>
                         </div>
                     </div>
                     <div class="courses">
@@ -85,21 +86,25 @@
             </section>
 
             <section>
-                <h2>🔬 Internships</h2>
+                <h2>💼 Internships</h2>
                 <div class="experience-item">
                     <div class="details-with-logo">
                         <h3>
                             <img src="images/CMF.png" alt="招商期货" class="logo">
                             China Merchants Futures
                         </h3>
-                        <p>Business Assistant</p>
+                        <p>Business Support Assistant</p>
+                        <p>Marketing & Asset Management Department</p>
+                        <p>Advisor: Mrs. Yan Yang</p>
+                        <p>Location: Shenzhen, China</p>
                         <p class="date">05/2025 - 08/2025</p>
                     </div>
                     <div class="content">
                         <ul>
-                            <li>Assisted with data consolidation, document preparation, and market research.</li>
-                            <li>Supported private placement roadshows and other investor events.</li>
-                            <li>Completed additional tasks assigned by supervisors.</li>
+                            <li>Facilitated client onboarding by meticulously reviewing individual and institutional account documents and addressing inquiries to ensure a smooth and compliant account opening process.</li>
+                            <li>Supported ongoing account services, including information updates and abnormal fund monitoring, ensuring business continuity and financial security through prompt coordination.</li>
+                            <li>Assisted in due diligence tasks, including organising private fund roadshow materials and drafting research reports, strengthening analytical skills and compliance awareness.</li>
+                            <li>Gained exposure to the operational flow of futures business and improved team collaboration skills./li>
                         </ul>
                     </div>
                 </div>
@@ -110,12 +115,14 @@
                             AXA Hong Kong and Macau
                         </h3>
                         <p>Wealth Management Advisor</p>
+                        <p>Asset Management Department</p>
+                        <p>Remote</p>
                         <p class="date">02/2025 - 03/2025</p>
                     </div>
                     <div class="content">
                         <ul>
-                            <li>Developed and implemented comprehensive family asset allocation strategies to optimize wealth preservation, growth, and risk management.</li>
-                            <li>Obtained a recommendation letter from the corporate executive finally.</li>
+                            <li>Provided comprehensive wealth planning services for high-net-worth individuals, covering tax optimisation, asset allocation, risk management, and intergenerational wealth transfer.</li>
+                            <li>Independently designed a personalised family asset allocation strategy that achieved both capital preservation and growth goals.</li>
                         </ul>
                     </div>
                 </div>
@@ -126,14 +133,16 @@
                             Monte Carlo Fund Management
                         </h3>
                         <p>FOF Researcher</p>
-                        <p>Advisor: <a href="https://gr.xjtu.edu.cn/en/web/xhyuan">Prof. Xianghui Yuan</a> (Xi'an Jiaotong University)</p>
-                        <p>Department: School of Economics and Finance of Xi'an Jiaotong University</p>
+                        <p>Strategy Research Department</p>
+                        <p>Advisor: <a href="https://gr.xjtu.edu.cn/en/web/xhyuan">Prof. Xianghui Yuan</a> (School of Economics and Finance of Xi'an Jiaotong University)</p>
+                        <p>Location: Xi’an, China</p>
                         <p class="date">12/2024 - 02/2025</p>
                     </div>
                     <div class="content">
                         <ul>
-                            <li>I recommended potential funds for the company's 2025 FOF portfolio, which were ultimately recognized and adopted by the company's project team. 😎</li>
-                            <li>By observing market data and conducting in-depth research, I discovered a possible effective factor by using JoinQuant Software to test single factors of stocks.</li>
+                            <li>Conducted due diligence on domestic quantitative hedge funds, focusing on equity strategies; compiled multiple in-depth research reports.</li>
+                            <li>Evaluated fund research papers and contributed to recommending promising candidates for the firm’s 2025 FOF portfolio; proposals were accepted and recognised by the investment committee.😎</li>
+                            <li>Used JoinQuant to perform single-factor testing, identifying impactful equity selection signals.</li>
                         </ul>
                     </div>
                 </div>
@@ -144,12 +153,16 @@
                             Sealand Securities
                         </h3>
                         <p>Wealth Advisor</p>
+                        <p>Wealth Management Department</p>
                         <p>Advisor: Mr. Hairui Zuo</p>
+                        <p>Location: Xi’an, China</p>
                         <p class="date">05/2024 - 06/2024</p>
                     </div>
                     <div class="content">
                         <ul>
-                            <li>Activated a client's investment account efficiently after gathering client information, verifying compliance, and submitting the application.</li>
+                            <li>Created customised investment strategies using appropriate financial instruments; served over 10 clients with a satisfaction rate of 98%.</li>
+                            <li>Assisted in client onboarding, including document verification, compliance checks, and preliminary investment planning.</li>
+                            <li>Conducted in-depth interviews to understand client needs and provided personalised product allocation advice, increasing client retention to 90% through continuous plan optimisation.</li>
                         </ul>
                     </div>
                 </div>
@@ -157,13 +170,32 @@
 
             <section>
                 <h2>📝 Projects </h2>
-                <div class="education-item">
+                <div class="experience-item">
+                    <div class="details">
+                        <h3>
+                            Tencent Future Product Manager Bootcamp
+                        </h3>
+                        <p>Project Introduction: This creation camp is a special training program jointly launched by Tencent Recruitment and Tencent Academy, aiming to cultivate potential product managers for the Internet industry.</p>
+                        <p class="date">July. 2025</p>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            <li>Theoretical learning: Systematically studied product management courses, covering theory and cases.</li>
+                            <li>Tool practice: Used professional tools to complete the project and improve practical ability.</li>
+                            <li>Project practice: Practical project topics to improve product knowledge and skills in all aspects.</li>
+                            <li>Certificate awarded: Obtained the Tencent Product Manager Completion Certificate, and the ability was officially recognized.</li>
+                        </ul>
+                    </div>
+                </div>
+                    
+                <div class="experience-item">
                     <div class="details">
                         <h3>Quantitative Stock Selection Project Using CSMAR Database</h3>
                         <p>Subject: Investment Analysis and Portfolio Management (FIN3080)</p>
                         <p>Instructor: <a href="https://myweb.cuhk.edu.cn/zhangjinfan">Prof. Jingfan Zhang</a> (CUHK-SZ)</p>
                         <p class="date">Spring 2025</p>
-                     <div class="content">
+                    </div>
+                    <div class="content">
                         <ul>
                             <li>Collected and cleaned A-share market data (2009–2023) from CSMAR, including monthly prices, quarterly financials, and daily volatility; constructed monthly P/B ratios and excluded outliers.</li>
                             <li>Conducted a cross-sectional regression at end-2010, finding significant positive relationships between P/B, ROE, and volatility (R² = 13.3%).</li>
@@ -171,6 +203,24 @@
                             <li>Completed the entire data pipeline, regression analysis, and visualization using Stata.</li>
                         </ul>
                     </div>
+                </div>
+                    
+                <div class="experience-item">
+                    <div class="details">
+                        <h3>S&P Global Market Intelligence – Corporate Valuation Challenge</h3>
+                        <p>Project Title: Company Analysis of Sinopec Oilfield Service Corporation</p>
+                        <p>Role: Team Leader & Financial Analyst</p>
+                        <p class="date">Oct. 2022</p>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            <li>Led a team in conducting an independent valuation of Sinopec Oilfield Service Corporation.</li>
+                            <li>Built a Discounted Cash Flow (DCF) model to evaluate intrinsic company value.</li>
+                            <li>Gathered and analysed industry trends and financial metrics to identify key valuation drivers, conducting sensitivity analysis to evaluate their impact on intrinsic value.</li>
+                            <li>Leveraged the S&P Capital IQ platform for financial data extraction, benchmarking, and peer comparison.</li>
+                        </ul>
+                    </div>
+                </div>     
             </section>         
             
             <section>
@@ -211,9 +261,9 @@
             <section>
                 <h2>🏅 Competition Experiences</h2>
                 <ul class="competition-list">
-                    <li>2022 S&P Global Corporate Valuation Challenge (CVC) <span class="date">10/2022</span></li>
-                    <li>2023 China Undergraduate Mathematical Contest in Modeling (CUCMC)<span class="date">07/09/2023 - 10/09/2023</span></li>
                     <li>2025 U.S. Mathematical Contest In Modeling (MCM/ICM) <span class="date">24/01/2025 - 28/01/2025</span></li>
+                    <li>2023 China Undergraduate Mathematical Contest in Modeling (CUCMC)<span class="date">07/09/2023 - 10/09/2023</span></li>
+                    <li>2022 S&P Global Corporate Valuation Challenge (CVC) <span class="date">10/2022</span></li>
                 </ul>
             </section>
             
@@ -261,7 +311,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Yu Jing. All rights reserved. All original content can be found in the <a href="https://github.com/jingyu03/jingyu03.github.io" target="_blank">website repository</a>.</p>
+            <p>&copy; 2026 Yu Jing. All rights reserved. All original content can be found in the <a href="https://github.com/jingyu03/jy.github.io" target="_blank">website repository</a>.</p>
         </div>
     </footer>
 
